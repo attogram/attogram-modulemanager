@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - Module Manager Admin Page v0.0.7
+// Attogram Framework - Module Manager Admin Page v0.0.8
 
 namespace Attogram;
 
@@ -33,6 +33,6 @@ foreach ($manager->getDisabledModuleList() as $moduleBaseName => $moduleInfo) {
     .$moduleInfo['description'] . '</small>';
 }
 
-print '</p></div>';
+print '</div>';
 
 $this->pageFooter();
