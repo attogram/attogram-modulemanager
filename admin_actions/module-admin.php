@@ -22,14 +22,15 @@ $modulesDisabled = dirname($this->modulesDirectory).DIRECTORY_SEPARATOR.'modules
 print '<h3>Active Modules:</h3>';
 $active = $manager->getModuleList($this->modulesDirectory);
 foreach ($active as $module) {
-    print '<br />ENABLED <a href="?d='.urlencode($module).'">(disable)</a> &nbsp; &nbsp; '.$module;
+    print '<br />ENABLED <a href="?d='.urlencode($module).'">(disable)</a>'
+        .' &nbsp; &nbsp; <code>'.$module.'</code>';
 }
 
 print '<h3>Disabled Modules:</h3>';
 $disabled = $manager->getModuleList($modulesDisabled);
 foreach ($disabled as $module) {
-  print '<br /><a href="?e='.urlencode($module).'">(enable)</a> DISABLED</a> &nbsp; &nbsp; '.$module;
-
+    print '<br /><a href="?e='.urlencode($module).'">(enable)</a> DISABLED</a>'
+        .' &nbsp; &nbsp; <code>'.$module.'</code>';
 }
 
 print '</p></div>';
