@@ -68,7 +68,7 @@ class ModuleManager
             if (!is_readable($moduleDirectory)) {
                 continue;
             }
-            $moduleInfo = $this->getModuleInfo($dir);
+            $moduleInfo = $this->getModuleInfo($moduleDirectory);
             $modules[$moduleInfo['name']]['description'] = $moduleInfo['description'];
             $modules[$moduleInfo['name']]['path'] = $moduleDirectory;
         }
@@ -182,7 +182,7 @@ class ModuleManager
      */
     public function getModuleInfo($moduleDir)
     {
-        $result['name'] = $moduleDir;
+        $result['name'] = basename($moduleDir);
         $result['description'] = '?';
         return $result;
     }
