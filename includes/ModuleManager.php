@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.7
+// Attogram Framework - ModuleManager class v0.0.8
 
 namespace Attogram;
 
@@ -51,7 +51,7 @@ class ModuleManager
     /**
      * get a list of module names from within a specific directory
      * @param string $directory  The directory to search
-     * @return array  List of module names
+     * @return array
      */
     private function getModuleList($directory)
     {
@@ -68,7 +68,9 @@ class ModuleManager
             if (!is_readable($moduleDirectory)) {
                 continue;
             }
-            $modules[$dir] = $moduleDirectory;
+            $moduleInfo = $this->getModuleInfo($dir);
+            $modules[$moduleInfo['name']]['description'] = $moduleInfo['description'];
+            $modules[$moduleInfo['name']]['path'] = $moduleDirectory;
         }
         $this->attogram->log->debug(
             'ModuleManager::getModuleList: '.$directory,
@@ -95,7 +97,7 @@ class ModuleManager
             return $result.'<br />ERROR: Module does not exist';
         }
         // rename to /modules/$module
-        $oldName = $disabled[$module];
+        $oldName = $disabled[$module]['path'];
         $newName = $this->enabledModulesDir.DIRECTORY_SEPARATOR.$module;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
         if (!$this->move($oldName, $newName)) {
@@ -128,7 +130,7 @@ class ModuleManager
             return $result.'<br />ERROR: Module does not exist';
         }
         // rename to /modules_disabled/$module
-        $oldName = $enabled[$module];
+        $oldName = $enabled[$module]['path'];
         $newName = $this->disabledModulesDir.DIRECTORY_SEPARATOR.$module;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
         if (!$this->move($oldName, $newName)) {
@@ -171,5 +173,17 @@ class ModuleManager
         unset($this->enabledModules);
         unset($this->disabledModules);
         return true;
+    }
+
+    /**
+     * get module name and description from composer.json file
+     * @param string $moduleDir  The Module directory to search
+     * @return array
+     */
+    public function getModuleInfo($moduleDir)
+    {
+        $result['name'] = $moduleDir;
+        $result['description'] = '?';
+        return $result;
     }
 }
