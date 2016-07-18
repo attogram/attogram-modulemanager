@@ -13,6 +13,9 @@ engines:
     enabled: true
   fixme:
     enabled: true
+    exclude_fingerprints:
+    - d3b733a6070d6911055a9868a8c4324e # TODO on README.md
+    - 3b8460fab6956f12bd2db9db7e5c7f90 # TODO on TODO.md
   eslint:
     enabled: true
   csslint:
