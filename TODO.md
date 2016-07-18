@@ -2,6 +2,8 @@
 
 * add CHANGELOG.md
 * add LICENSE.md
+* add codacy
+* add travis-ci + phpunit tests
 * parse modules composer.json for true name
 * integrate in composer create-project
   and/or download zip + install

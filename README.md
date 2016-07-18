@@ -1,5 +1,13 @@
 # Attogram Framework Module Manager v0.0.1
 
+[![Latest Stable Version](https://poser.pugx.org/attogram/attogram-modulemanager/v/stable)](https://packagist.org/packages/attogram/attogram-modulemanager)
+[![Latest Unstable Version](https://poser.pugx.org/attogram/attogram-modulemanager/v/unstable)](https://packagist.org/packages/attogram/attogram-modulemanager)
+[![Total Downloads](https://poser.pugx.org/attogram/attogram-modulemanager/downloads)](https://packagist.org/packages/attogram/attogram-modulemanager)
+[![License](https://poser.pugx.org/attogram/attogram-modulemanager/license)](https://github.com/attogram/attogrammodulemanager/blob/master/LICENSE.md)
+[![Code Climate](https://codeclimate.com/github/attogram/attogram-modulemanager/badges/gpa.svg)](https://codeclimate.com/github/attogram/attogram-modulemanager)
+[![Issue Count](https://codeclimate.com/github/attogram/attogram-modulemanager/badges/issue_count.svg)](https://codeclimate.com/github/attogram/attogram-modulemanager)
+[`[TODO]`](https://github.com/attogram/attogram-modulemanager/blob/master/TODO.md)
+
 This is the [Module Manager](https://github.com/attogram/attogram-modulemanager)
 for the [Attogram Framework](https://github.com/attogram/attogram).
 
