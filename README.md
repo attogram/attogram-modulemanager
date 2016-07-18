@@ -4,6 +4,7 @@
 [![Latest Unstable Version](https://poser.pugx.org/attogram/attogram-modulemanager/v/unstable)](https://packagist.org/packages/attogram/attogram-modulemanager)
 [![Total Downloads](https://poser.pugx.org/attogram/attogram-modulemanager/downloads)](https://packagist.org/packages/attogram/attogram-modulemanager)
 [![License](https://poser.pugx.org/attogram/attogram-modulemanager/license)](https://github.com/attogram/attogrammodulemanager/blob/master/LICENSE.md)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/91c50120add44e26bd22e605849e673b)](https://www.codacy.com/app/attogram-project/attogram-modulemanager?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=attogram/attogram-modulemanager&amp;utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/attogram/attogram-modulemanager/badges/gpa.svg)](https://codeclimate.com/github/attogram/attogram-modulemanager)
 [![Issue Count](https://codeclimate.com/github/attogram/attogram-modulemanager/badges/issue_count.svg)](https://codeclimate.com/github/attogram/attogram-modulemanager)
 [`[CHANGELOG]`](https://github.com/attogram/attogram-modulemanager/blob/master/CHANGELOG.md)
