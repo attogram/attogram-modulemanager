@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.9
+// Attogram Framework - ModuleManager class v0.0.10
 
 namespace Attogram;
 
@@ -10,7 +10,6 @@ class ModuleManager
     public $enabledModules;     // (array) memory variable for getEnabledModuleList()
     public $disabledModulesDir; // (string) Disabled Modules directory
     public $disabledModules;    // (array) memory variable for getDisabledModuleList()
-    public $moduleManagerMe;    // (string) Name of the Module Manager Module
 
     /**
      * @param object $attogram  The Attogram Framework object
@@ -69,6 +68,9 @@ class ModuleManager
                 continue;
             }
             $moduleInfo = $this->getModuleInfo($moduleDirectory);
+            if ($moduleInfo['name'] == 'attogram/attogram-modulemanager') {
+                continue;  // don't list ourself
+            }
             $modules[$moduleName] = array(
                 'basename' => $moduleInfo['basename'],
                 'name' => $moduleInfo['name'],
@@ -120,10 +122,6 @@ class ModuleManager
     public function disable($moduleName)
     {
         $result = 'DISABLING: ' . $this->attogram->webDisplay($moduleName);
-        // may not disable the Module Manager!
-        if ($moduleName == $this->moduleManagerMe) {
-            return $result.'<br />ERROR: May not disable the Module Manager!';
-        }
         // module is already disabled?
         if (array_key_exists($moduleName, $this->getDisabledModuleList())) {
             return $result.'<br />ERROR: Module already disabled';
@@ -132,6 +130,10 @@ class ModuleManager
         $enabled = $this->getEnabledModuleList();
         if (!array_key_exists($moduleName, $enabled)) {
             return $result.'<br />ERROR: Module does not exist' .'<pre>'.print_r($enabled,true).'</pre>';
+        }
+        // Check not ourself
+        if ($enabled[$moduleName]['name'] == 'attogram/attogram-modulemanager') {
+            return $result.'<br />ERROR: May not disable the Module Manager!';
         }
         // rename to /modules_disabled/$module
         $oldName = $enabled[$moduleName]['path'];
