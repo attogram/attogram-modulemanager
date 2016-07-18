@@ -1,12 +1,11 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.6
+// Attogram Framework - ModuleManager class v0.0.7
 
 namespace Attogram;
 
 class ModuleManager
 {
     public $attogram;           // (object) Attogram Framework Object
-    public $modules;            // (array) memory variable for getModuleList()
     public $enabledModulesDir;  // (string) Modules Directory
     public $enabledModules;     // (array) memory variable for getEnabledModuleList()
     public $disabledModulesDir; // (string) Disabled Modules directory
@@ -56,7 +55,7 @@ class ModuleManager
      */
     private function getModuleList($directory)
     {
-        $this->modules = array();
+        $modules = array();
         $directories = array_diff(
             scandir($directory),
             $this->attogram->getSkipFiles()
@@ -69,13 +68,13 @@ class ModuleManager
             if (!is_readable($moduleDirectory)) {
                 continue;
             }
-            $this->modules[$dir] = $moduleDirectory;
+            $modules[$dir] = $moduleDirectory;
         }
         $this->attogram->log->debug(
             'ModuleManager::getModuleList: '.$directory,
-            $this->modules
+            $modules
         );
-        return $this->modules;
+        return $modules;
     }
 
     /**
