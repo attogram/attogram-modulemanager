@@ -13,6 +13,9 @@ class ModuleManager
     public $disabledModules;    // (array) memory variable for getDisabledModuleList()
     public $moduleManagerMe;    // (string) Name of the Module Manager Module
 
+    /**
+     * @param object $attogram  The Attogram Framework object
+     */
     public function __construct($attogram)
     {
         $this->attogram = $attogram;
@@ -22,6 +25,10 @@ class ModuleManager
         $this->moduleManagerMe = basename(dirname(__DIR__));
     }
 
+    /**
+     * get a list of enabled modules
+     * @return array  List of names of enabled modules
+     */
     public function getEnabledModuleList()
     {
         if (is_array($this->enabledModules)) {
@@ -30,6 +37,10 @@ class ModuleManager
         return $this->enabledModules = $this->getModuleList($this->enabledModulesDir);
     }
 
+    /**
+     * get a list of disabled modules
+     * @return array  List of names of disabled modules
+     */
     public function getDisabledModuleList()
     {
         if (is_array($this->disabledModules)) {
@@ -38,6 +49,11 @@ class ModuleManager
         return $this->disabledModules = $this->getModuleList($this->disabledModulesDir);
     }
 
+    /**
+     * get a list of module names from within a specific directory
+     * @param string $directory  The directory to search
+     * @return array  List of module names
+     */
     private function getModuleList($directory)
     {
         $this->modules = array();
@@ -62,6 +78,11 @@ class ModuleManager
         return $this->modules;
     }
 
+    /**
+     * enable a module
+     * @param string $module  Name of the module to enable
+     * @return bool
+     */
     public function enable($module)
     {
         $result = 'ENABLING: ' . $this->attogram->webDisplay($module);
@@ -86,6 +107,11 @@ class ModuleManager
         return $result;
     }
 
+    /**
+     * disable a module
+     * @param string $module  Name of the module to disable
+     * @return bool
+     */
     public function disable($module)
     {
         $result = 'DISABLING: ' . $this->attogram->webDisplay($module);
