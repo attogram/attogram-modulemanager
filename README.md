@@ -43,8 +43,10 @@ in order for the Module Manager to work properly.
 
 ### Admin Actions
 
-* [`admin_actions/module-admin.php`](https://github.com/attogram/attogram-modulemanager/blob/master/admin_actions/module-admin.php) - Module Manager Admin Page
+* [`admin_actions/module-admin.php`](https://github.com/attogram/attogram-modulemanager/blob/master/admin_actions/module-admin.php)
+  \- Module Manager Admin Page
 
 ### Included Files
 
-* [`includes/ModuleManager.php`](https://github.com/attogram/attogram-modulemanager/blob/master/includes/moduleManager.php) - Attogram ModuleManager Object
+* [`includes/ModuleManager.php`](https://github.com/attogram/attogram-modulemanager/blob/master/includes/moduleManager.php)
+  \- Attogram ModuleManager Object
