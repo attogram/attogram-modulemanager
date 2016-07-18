@@ -1,7 +1,5 @@
 # TODO: [Attogram Framework Module Manager](https://github.com/attogram/attogram=modulemanager)
 
-* add CHANGELOG.md
-* add LICENSE.md
 * add codacy
 * add travis-ci + phpunit tests
 * parse modules composer.json for true name
