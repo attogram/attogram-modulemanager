@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.5
+// Attogram Framework - ModuleManager class v0.0.6
 
 namespace Attogram;
 
@@ -55,8 +55,10 @@ class ModuleManager
             }
             $this->modules[$dir] = $moduleDirectory;
         }
-        $this->attogram->log->debug('ModuleManager::getModuleList: '
-            .$directory, $this->modules);
+        $this->attogram->log->debug(
+            'ModuleManager::getModuleList: '.$directory,
+            $this->modules
+        );
         return $this->modules;
     }
 
@@ -72,7 +74,7 @@ class ModuleManager
         if (!array_key_exists($module, $disabled)) {
             return $result.'<br />ERROR: Module does not exist';
         }
-        // rename to /modules/*
+        // rename to /modules/$module
         $oldName = $disabled[$module];
         $newName = $this->enabledModulesDir.DIRECTORY_SEPARATOR.$module;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
@@ -100,7 +102,7 @@ class ModuleManager
         if (!array_key_exists($module, $enabled)) {
             return $result.'<br />ERROR: Module does not exist';
         }
-        // rename to /modules/*
+        // rename to /modules_disabled/$module
         $oldName = $enabled[$module];
         $newName = $this->disabledModulesDir.DIRECTORY_SEPARATOR.$module;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
@@ -114,8 +116,8 @@ class ModuleManager
 
     /**
      * move a module to a new location
-     * @param string $oldName  path + filename of file/directory to move
-     * @param string $newName  path + filename of new location for file/directory
+     * @param string $oldName  path + filename of module directory to move
+     * @param string $newName  path + filename of new location for module directory
      * @return bool
      */
     public function move($oldName, $newName)
@@ -145,5 +147,4 @@ class ModuleManager
         unset($this->disabledModules);
         return true;
     }
-
 }
