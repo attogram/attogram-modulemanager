@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - Module Manager Admin Page v0.0.3
+// Attogram Framework - Module Manager Admin Page v0.0.4
 
 namespace Attogram;
 
@@ -7,7 +7,10 @@ $manager = new ModuleManager($this);
 
 $this->pageHeader('Module Manager');
 
-print '<div class="container"><h1 class="squished">Module Manager</h1><hr />';
+print '<div class="container">'
+    .'<h1 class="squished">Module Manager</h1>'
+    .'<h5>Module Manager: <code>'.$manager->moduleManagerMe.'</code></h5>'
+    .'<hr />';
 
 if ($this->request->query->has('e')) {
     print $manager->enable($this->request->query->get('e'));

@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.3
+// Attogram Framework - ModuleManager class v0.0.4
 
 namespace Attogram;
 
@@ -11,6 +11,7 @@ class ModuleManager
     public $enabledModules;     // (array) memory variable for getEnabledModuleList()
     public $disabledModulesDir; // (string) Disabled Modules directory
     public $disabledModules;    // (array) memory variable for getDisabledModuleList()
+    public $moduleManagerMe;    // (string) Name of the Module Manager Module
 
     public function __construct($attogram)
     {
@@ -18,6 +19,7 @@ class ModuleManager
         $this->enabledModulesDir = $this->attogram->modulesDirectory;
         $this->disabledModulesDir = dirname($this->enabledModulesDir)
             .DIRECTORY_SEPARATOR.'modules_disabled';
+        $this->moduleManagerMe = basename(dirname(__DIR__));
     }
 
     public function getEnabledModuleList()
@@ -31,7 +33,7 @@ class ModuleManager
     public function getDisabledModuleList()
     {
         if (is_array($this->disabledModules)) {
-            //return $this->disabledModules;
+            return $this->disabledModules;
         }
         return $this->disabledModules = $this->getModuleList($this->disabledModulesDir);
     }
@@ -53,28 +55,64 @@ class ModuleManager
             }
             $this->modules[$dir] = $moduleDirectory;
         }
-        $this->attogram->log->debug('getModuleList: ' . $directory, $this->modules);
+        $this->attogram->log->debug('ModuleManager::getModuleList: '
+            .$directory, $this->modules);
         return $this->modules;
     }
 
     public function enable($module)
     {
         $result = 'ENABLING: ' . $this->attogram->webDisplay($module);
-        // check module exists
-        // check module in /modules_disabled/*
-        // check name is free in enabled /modules/*
+        // module is already enabled?
+        if (array_key_exists($module, $this->getEnabledModuleList())) {
+            return $result.'<br />ERROR: Module already enabled';
+        }
+        // module exists and is disabled?
+        $disabled = $this->getDisabledModuleList();
+        if (!array_key_exists($module, $disabled)) {
+            return $result.'<br />ERROR: Module does not exist';
+        }
         // rename to /modules/*
-
+        $oldName = $disabled[$module];
+        $newName = $this->enabledModulesDir.DIRECTORY_SEPARATOR.$module;
+        $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
+        if (!rename($oldName, $newName)) {
+            $result .= '<br />ERROR: can not move module';
+        }
+        unset($this->enabledModules);
+        unset($this->disabledModules);
+        $this->attogram->event->notice('ENABLED module: '
+            .$this->attogram->webDisplay($module).': '.$newName);
         return $result;
     }
 
     public function disable($module)
     {
         $result = 'DISABLING: ' . $this->attogram->webDisplay($module);
-        // check module exists
-        // check module in /modules/*
-        // check name is free in /modules_disabled/*
-        // rename to /modules_disabled/*
+        // may not disable the Module Manager!
+        if ($module == $this->moduleManagerMe) {
+            return $result.'<br />ERROR: May not disable the Module Manager!';
+        }
+        // module is already disabled?
+        if (array_key_exists($module, $this->getDisabledModuleList())) {
+            return $result.'<br />ERROR: Module already disabled';
+        }
+        // module exists and is enabled?
+        $enabled = $this->getEnabledModuleList();
+        if (!array_key_exists($module, $enabled)) {
+            return $result.'<br />ERROR: Module does not exist';
+        }
+        // rename to /modules/*
+        $oldName = $enabled[$module];
+        $newName = $this->disabledModulesDir.DIRECTORY_SEPARATOR.$module;
+        $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
+        if (!rename($oldName, $newName)) {
+            $result .= '<br />ERROR: can not move module';
+        }
+        unset($this->enabledModules);
+        unset($this->disabledModules);
+        $this->attogram->event->notice('DISABLED module: '
+            .$this->attogram->webDisplay($module).': '.$newName);
         return $result;
     }
 }
