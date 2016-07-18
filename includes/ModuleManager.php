@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.8
+// Attogram Framework - ModuleManager class v0.0.9
 
 namespace Attogram;
 
@@ -60,8 +60,8 @@ class ModuleManager
             scandir($directory),
             $this->attogram->getSkipFiles()
         );
-        foreach ($directories as $dir) {
-            $moduleDirectory = $directory.DIRECTORY_SEPARATOR.$dir;
+        foreach ($directories as $moduleName) {
+            $moduleDirectory = $directory.DIRECTORY_SEPARATOR.$moduleName;
             if (!is_dir($moduleDirectory)) {
                 continue;
             }
@@ -69,8 +69,12 @@ class ModuleManager
                 continue;
             }
             $moduleInfo = $this->getModuleInfo($moduleDirectory);
-            $modules[$moduleInfo['name']]['description'] = $moduleInfo['description'];
-            $modules[$moduleInfo['name']]['path'] = $moduleDirectory;
+            $modules[$moduleName] = array(
+                'basename' => $moduleInfo['basename'],
+                'name' => $moduleInfo['name'],
+                'description' => $moduleInfo['description'],
+                'path' => $moduleDirectory
+            );
         }
         $this->attogram->log->debug(
             'ModuleManager::getModuleList: '.$directory,
@@ -81,63 +85,63 @@ class ModuleManager
 
     /**
      * enable a module
-     * @param string $module  Name of the module to enable
+     * @param string $moduleName  Name of the module to enable
      * @return bool
      */
-    public function enable($module)
+    public function enable($moduleName)
     {
-        $result = 'ENABLING: ' . $this->attogram->webDisplay($module);
+        $result = 'ENABLING: ' . $this->attogram->webDisplay($moduleName);
         // module is already enabled?
-        if (array_key_exists($module, $this->getEnabledModuleList())) {
+        if (array_key_exists($moduleName, $this->getEnabledModuleList())) {
             return $result.'<br />ERROR: Module already enabled';
         }
         // module exists and is disabled?
         $disabled = $this->getDisabledModuleList();
-        if (!array_key_exists($module, $disabled)) {
+        if (!array_key_exists($moduleName, $disabled)) {
             return $result.'<br />ERROR: Module does not exist';
         }
         // rename to /modules/$module
-        $oldName = $disabled[$module]['path'];
-        $newName = $this->enabledModulesDir.DIRECTORY_SEPARATOR.$module;
+        $oldName = $disabled[$moduleName]['path'];
+        $newName = $this->enabledModulesDir.DIRECTORY_SEPARATOR.$moduleName;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
         if (!$this->move($oldName, $newName)) {
             $result .= '<br />ERROR: can not move module';
         }
         $this->attogram->event->notice('ENABLED module: '
-            .$this->attogram->webDisplay($module).': '.$newName);
+            .$this->attogram->webDisplay($moduleName).': '.$newName);
         return $result;
     }
 
     /**
      * disable a module
-     * @param string $module  Name of the module to disable
+     * @param string $moduleName  Name of the module to disable
      * @return bool
      */
-    public function disable($module)
+    public function disable($moduleName)
     {
-        $result = 'DISABLING: ' . $this->attogram->webDisplay($module);
+        $result = 'DISABLING: ' . $this->attogram->webDisplay($moduleName);
         // may not disable the Module Manager!
-        if ($module == $this->moduleManagerMe) {
+        if ($moduleName == $this->moduleManagerMe) {
             return $result.'<br />ERROR: May not disable the Module Manager!';
         }
         // module is already disabled?
-        if (array_key_exists($module, $this->getDisabledModuleList())) {
+        if (array_key_exists($moduleName, $this->getDisabledModuleList())) {
             return $result.'<br />ERROR: Module already disabled';
         }
         // module exists and is enabled?
         $enabled = $this->getEnabledModuleList();
-        if (!array_key_exists($module, $enabled)) {
-            return $result.'<br />ERROR: Module does not exist';
+        if (!array_key_exists($moduleName, $enabled)) {
+            return $result.'<br />ERROR: Module does not exist' .'<pre>'.print_r($enabled,true).'</pre>';
         }
         // rename to /modules_disabled/$module
-        $oldName = $enabled[$module]['path'];
-        $newName = $this->disabledModulesDir.DIRECTORY_SEPARATOR.$module;
+        $oldName = $enabled[$moduleName]['path'];
+        $newName = $this->disabledModulesDir.DIRECTORY_SEPARATOR.$moduleName;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
         if (!$this->move($oldName, $newName)) {
             $result .= '<br />ERROR: can not move module';
         }
         $this->attogram->event->notice('DISABLED module: '
-            .$this->attogram->webDisplay($module).': '.$newName);
+            .$this->attogram->webDisplay($moduleName).': '.$newName);
         return $result;
     }
 
@@ -182,8 +186,27 @@ class ModuleManager
      */
     public function getModuleInfo($moduleDir)
     {
-        $result['name'] = basename($moduleDir);
-        $result['description'] = '?';
+        $result['basename'] = basename($moduleDir);
+        $result['name'] = $result['basename'];
+        $result['description'] = '';
+
+        $composerDotJson = $moduleDir.DIRECTORY_SEPARATOR.'composer.json';
+        if (!is_readable($composerDotJson)) {
+            return $result;
+        }
+
+        $contents = file_get_contents($composerDotJson);
+        $contents = utf8_encode($contents);
+        $composerData = @json_decode($contents);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return $result;
+        }
+        if (isset($composerData->name)) {
+            $result['name'] = $composerData->name;
+        }
+        if (isset( $composerData->description)) {
+            $result['description'] = $composerData->description;
+        }
         return $result;
     }
 }
