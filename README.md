@@ -1,4 +1,4 @@
-# Attogram Framework Module Manager v0.0.0
+# Attogram Framework Module Manager v0.0.1
 
 This is the [Module Manager](https://github.com/attogram/attogram-modulemanager)
 for the [Attogram Framework](https://github.com/attogram/attogram).
