@@ -1,22 +1,22 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.2
+// Attogram Framework - ModuleManager class v0.0.3
 
 namespace Attogram;
 
 class ModuleManager
 {
-    public $attogram; // (object) Attogram Framework Object
-    public $modules;  // (array) memory variable for getModuleList()
-    public $modulesDir; // (string) Modules Directory
+    public $attogram;           // (object) Attogram Framework Object
+    public $modules;            // (array) memory variable for getModuleList()
+    public $enabledModulesDir;  // (string) Modules Directory
+    public $enabledModules;     // (array) memory variable for getEnabledModuleList()
     public $disabledModulesDir; // (string) Disabled Modules directory
-    public $enabledModules; // (array) memory variable for getEnabledModuleList()
-    public $disabledModules; // (array) memory variable for getDisabledModuleList()
+    public $disabledModules;    // (array) memory variable for getDisabledModuleList()
 
     public function __construct($attogram)
     {
         $this->attogram = $attogram;
-        $this->modulesDir = $this->attogram->modulesDirectory;
-        $this->disabledModulesDir = dirname($this->modulesDir)
+        $this->enabledModulesDir = $this->attogram->modulesDirectory;
+        $this->disabledModulesDir = dirname($this->enabledModulesDir)
             .DIRECTORY_SEPARATOR.'modules_disabled';
     }
 
@@ -25,13 +25,13 @@ class ModuleManager
         if (is_array($this->enabledModules)) {
             return $this->enabledModules;
         }
-        return $this->enabledModules = $this->getModuleList($this->modulesDir);
+        return $this->enabledModules = $this->getModuleList($this->enabledModulesDir);
     }
 
     public function getDisabledModuleList()
     {
         if (is_array($this->disabledModules)) {
-            return $this->disabledModules;
+            //return $this->disabledModules;
         }
         return $this->disabledModules = $this->getModuleList($this->disabledModulesDir);
     }

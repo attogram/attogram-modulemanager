@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - Module Manager Admin Page v0.0.2
+// Attogram Framework - Module Manager Admin Page v0.0.3
 
 namespace Attogram;
 
@@ -18,16 +18,14 @@ if ($this->request->query->has('d')) {
 }
 
 print '<h3>Active Modules:</h3>';
-$active = $manager->getEnabledModuleList();
-foreach ($active as $moduleName => $modulePath) {
+foreach ($manager->getEnabledModuleList() as $moduleName => $modulePath) {
     print '<br />ENABLED <a href="?d='.urlencode($moduleName).'">(disable)</a>'
         .' &nbsp; &nbsp; <strong>'.$moduleName.'</strong> &nbsp; &nbsp; <code>'
         .$modulePath.'</code>';
 }
 
 print '<h3>Disabled Modules:</h3>';
-$disabled = $manager->getDisabledModuleList();
-foreach ($disabled as $moduleName => $modulePath) {
+foreach ($manager->getDisabledModuleList() as $moduleName => $modulePath) {
     print '<br /><a href="?e='.urlencode($moduleName).'">(enable)</a> DISABLED'
         .' &nbsp; &nbsp; <strong>'.$moduleName.'</strong> &nbsp; &nbsp; <code>'
         .$modulePath.'</code>';
