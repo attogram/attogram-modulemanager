@@ -17,10 +17,8 @@ if ($this->request->query->has('d')) {
     print $manager->disable($this->request->query->get('d'));
 }
 
-$modulesDisabled = dirname($this->modulesDirectory).DIRECTORY_SEPARATOR.'modules_disabled';
-
 print '<h3>Active Modules:</h3>';
-$active = $manager->getModuleList($this->modulesDirectory);
+$active = $manager->getEnabledModuleList();
 foreach ($active as $moduleName => $modulePath) {
     print '<br />ENABLED <a href="?d='.urlencode($moduleName).'">(disable)</a>'
         .' &nbsp; &nbsp; <strong>'.$moduleName.'</strong> &nbsp; &nbsp; <code>'
@@ -28,7 +26,7 @@ foreach ($active as $moduleName => $modulePath) {
 }
 
 print '<h3>Disabled Modules:</h3>';
-$disabled = $manager->getModuleList($modulesDisabled);
+$disabled = $manager->getDisabledModuleList();
 foreach ($disabled as $moduleName => $modulePath) {
     print '<br /><a href="?e='.urlencode($moduleName).'">(enable)</a> DISABLED'
         .' &nbsp; &nbsp; <strong>'.$moduleName.'</strong> &nbsp; &nbsp; <code>'
