@@ -10,6 +10,7 @@ class ModuleManager
     public $enabledModules;     // (array) memory variable for getEnabledModuleList()
     public $disabledModulesDir; // (string) Disabled Modules directory
     public $disabledModules;    // (array) memory variable for getDisabledModuleList()
+    public $myself;             // (string) name of this Module Manager
 
     /**
      * @param object $attogram  The Attogram Framework object
@@ -17,10 +18,10 @@ class ModuleManager
     public function __construct($attogram)
     {
         $this->attogram = $attogram;
+        $this->myself = 'attogram/attogram-modulemanager';
         $this->enabledModulesDir = $this->attogram->modulesDirectory;
         $this->disabledModulesDir = dirname($this->enabledModulesDir)
             .DIRECTORY_SEPARATOR.'modules_disabled';
-        $this->moduleManagerMe = basename(dirname(__DIR__));
     }
 
     /**
@@ -68,7 +69,7 @@ class ModuleManager
                 continue;
             }
             $moduleInfo = $this->getModuleInfo($moduleDirectory);
-            if ($moduleInfo['name'] == 'attogram/attogram-modulemanager') {
+            if ($moduleInfo['name'] == $this->myself) {
                 continue;  // don't list ourself
             }
             $modules[$moduleName] = array(
@@ -132,7 +133,7 @@ class ModuleManager
             return $result.'<br />ERROR: Module does not exist' .'<pre>'.print_r($enabled,true).'</pre>';
         }
         // Check not ourself
-        if ($enabled[$moduleName]['name'] == 'attogram/attogram-modulemanager') {
+        if ($enabled[$moduleName]['name'] == $this->myself) {
             return $result.'<br />ERROR: May not disable the Module Manager!';
         }
         // rename to /modules_disabled/$module
