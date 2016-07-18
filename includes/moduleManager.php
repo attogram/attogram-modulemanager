@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.4
+// Attogram Framework - ModuleManager class v0.0.5
 
 namespace Attogram;
 
@@ -76,11 +76,9 @@ class ModuleManager
         $oldName = $disabled[$module];
         $newName = $this->enabledModulesDir.DIRECTORY_SEPARATOR.$module;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
-        if (!rename($oldName, $newName)) {
+        if (!$this->move($oldName, $newName)) {
             $result .= '<br />ERROR: can not move module';
         }
-        unset($this->enabledModules);
-        unset($this->disabledModules);
         $this->attogram->event->notice('ENABLED module: '
             .$this->attogram->webDisplay($module).': '.$newName);
         return $result;
@@ -106,13 +104,46 @@ class ModuleManager
         $oldName = $enabled[$module];
         $newName = $this->disabledModulesDir.DIRECTORY_SEPARATOR.$module;
         $result .= '<br />MOVING <code>'.$oldName.'</code> to <code>'.$newName.'</code>';
-        if (!rename($oldName, $newName)) {
+        if (!$this->move($oldName, $newName)) {
             $result .= '<br />ERROR: can not move module';
         }
-        unset($this->enabledModules);
-        unset($this->disabledModules);
         $this->attogram->event->notice('DISABLED module: '
             .$this->attogram->webDisplay($module).': '.$newName);
         return $result;
     }
+
+    /**
+     * move a module to a new location
+     * @param string $oldName  path + filename of file/directory to move
+     * @param string $newName  path + filename of new location for file/directory
+     * @return bool
+     */
+    public function move($oldName, $newName)
+    {
+        if (!is_readable($oldName)) {
+            $this->attogram->log->error('ModuleManager:moveModule: source module not found: '
+                .$this->attogram->webDisplay($oldName));
+            return false;
+        }
+        if (!is_dir($oldName)) {
+            $this->attogram->log->error('ModuleManager:moveModule: source module directory not found: '
+                .$this->attogram->webDisplay($oldName));
+            return false;
+        }
+        if (file_exists($newName)) {
+            $this->attogram->log->error('ModuleManager:moveModule: target module already exists: '
+                .$this->attogram->webDisplay($newName));
+            return false;
+        }
+        if (!rename($oldName, $newName)) {
+            $this->attogram->log->error('ModuleManager::moveModule: move failed: '
+                .$this->attogram->webDisplay($oldName).' to '
+                .$this->attogram->webDisplay($newName));
+            return false;
+        }
+        unset($this->enabledModules);
+        unset($this->disabledModules);
+        return true;
+    }
+
 }
