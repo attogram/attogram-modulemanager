@@ -189,12 +189,14 @@ class ModuleManager
      */
     public function getModuleInfo($moduleDir)
     {
+        //$this->attogram->log->debug('ModuleManager::getModuleInfo: '.$moduleDir);
         $result['basename'] = basename($moduleDir);
         $result['name'] = $result['basename'];
         $result['description'] = '';
 
         $composerDotJson = $moduleDir.DIRECTORY_SEPARATOR.'composer.json';
         if (!is_readable($composerDotJson)) {
+            $this->attogram->log->error('ModuleManager::getModuleInfo: composer.json NOT FOUND: '.$moduleDir);
             return $result;
         }
 
@@ -202,8 +204,11 @@ class ModuleManager
         $contents = utf8_encode($contents);
         $composerData = @json_decode($contents);
         if (json_last_error() !== JSON_ERROR_NONE) {
+            $this->attogram->log->error('ModuleManager::getModuleInfo: error parsing composer.json: '
+                .$moduleDir.' error: '.json_last_error_msg());
             return $result;
         }
+        //$this->attogram->log->debug('ModuleManager::getModuleInfo: '.print_r($composerData,true));
         if (isset($composerData->name)) {
             $result['name'] = $composerData->name;
         }
