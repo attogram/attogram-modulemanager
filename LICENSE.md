@@ -49,6 +49,7 @@ GNU General Public License for more details.
 -----
 
 ## GNU GENERAL PUBLIC LICENSE
+
 Version 3, 29 June 2007
 
 Copyright (C) 2007 [Free Software Foundation, Inc.](http://fsf.org/)
@@ -630,7 +631,7 @@ apply local law that most closely approximates an absolute waiver of all civil
 liability in connection with the Program, unless a warranty or assumption of
 liability accompanies a copy of the Program in return for a fee.
 
-### END OF TERMS AND CONDITIONS ###
+### END OF TERMS AND CONDITIONS
 
 #### How to Apply These Terms to Your New Programs
 
