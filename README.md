@@ -1,5 +1,7 @@
 # Attogram Framework Module Manager v0.0.1
 
+[![Module Manager Intro screenshot](https://raw.githubusercontent.com/attogram/attogram-docs/master/ModuleManager/modulemanager.intro.small.gif)](https://raw.githubusercontent.com/attogram/attogram-docs/master/ModuleManager/modulemanager.intro.full.gif)
+
 [![Latest Stable Version](https://poser.pugx.org/attogram/attogram-modulemanager/v/stable)](https://packagist.org/packages/attogram/attogram-modulemanager)
 [![Latest Unstable Version](https://poser.pugx.org/attogram/attogram-modulemanager/v/unstable)](https://packagist.org/packages/attogram/attogram-modulemanager)
 [![Total Downloads](https://poser.pugx.org/attogram/attogram-modulemanager/downloads)](https://packagist.org/packages/attogram/attogram-modulemanager)
