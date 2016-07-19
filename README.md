@@ -13,11 +13,11 @@
 This is the [Module Manager](https://github.com/attogram/attogram-modulemanager)
 for the [Attogram Framework](https://github.com/attogram/attogram).
 
-The Module Manager is a web interface that allows admins to:
+The Module Manager allows admins to:
 
-* View status of modules
-* Disable modules
 * Enable modules
+* Disable modules
+* View status of modules
 
 ## Install via composer
 

@@ -1,6 +1,6 @@
 {
   "name": "attogram/attogram-modulemanager",
-  "description": "Module Manager for the Attogram Framework",
+  "description": "The Module Manager for the Attogram Framework allows admins to enable/disable modules, and view status of installed modules",
   "type": "project",
   "homepage": "https://github.com/attogram/attogram-modulemanager",
   "license": "(MIT or GPL-3.0+)",

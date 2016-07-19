@@ -1,16 +1,17 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.11
+// Attogram Framework - ModuleManager class v0.0.12
 
 namespace Attogram;
 
 class ModuleManager
 {
+    const MODULE_MANAGER_NAME = 'attogram/attogram-modulemanager';
+
     public $attogram;           // (object) Attogram Framework Object
     public $enabledModulesDir;  // (string) Modules Directory
     public $enabledModules;     // (array) memory variable for getEnabledModuleList()
     public $disabledModulesDir; // (string) Disabled Modules directory
     public $disabledModules;    // (array) memory variable for getDisabledModuleList()
-    public $myself;             // (string) name of this Module Manager
 
     /**
      * @param object $attogram  The Attogram Framework object
@@ -18,7 +19,6 @@ class ModuleManager
     public function __construct($attogram)
     {
         $this->attogram = $attogram;
-        $this->myself = 'attogram/attogram-modulemanager';
         $this->enabledModulesDir = $this->attogram->modulesDirectory;
         $this->disabledModulesDir = dirname($this->enabledModulesDir)
             .DIRECTORY_SEPARATOR.'modules_disabled';
@@ -69,14 +69,12 @@ class ModuleManager
                 continue;
             }
             $moduleInfo = $this->getModuleInfo($moduleDirectory);
-            //if ($moduleInfo['name'] == $this->myself) {
-            //    continue;  // don't list ourself
-            //}
             $modules[$moduleName] = array(
                 'basename' => $moduleInfo['basename'],
                 'name' => $moduleInfo['name'],
                 'description' => $moduleInfo['description'],
                 'homepage' => $moduleInfo['homepage'],
+                'license' => $moduleInfo['license'],
                 'path' => $moduleDirectory
             );
         }
@@ -190,18 +188,16 @@ class ModuleManager
      */
     public function getModuleInfo($moduleDir)
     {
-        //$this->attogram->log->debug('ModuleManager::getModuleInfo: '.$moduleDir);
         $result['basename'] = basename($moduleDir);
         $result['name'] = $result['basename'];
         $result['description'] = '';
         $result['homepage'] = '';
-
+        $result['license'] = '';
         $composerDotJson = $moduleDir.DIRECTORY_SEPARATOR.'composer.json';
         if (!is_readable($composerDotJson)) {
             $this->attogram->log->error('ModuleManager::getModuleInfo: composer.json NOT FOUND: '.$moduleDir);
             return $result;
         }
-
         $contents = file_get_contents($composerDotJson);
         $contents = utf8_encode($contents);
         $composerData = @json_decode($contents);
@@ -210,7 +206,6 @@ class ModuleManager
                 .$moduleDir.' error: '.json_last_error_msg());
             return $result;
         }
-        //$this->attogram->log->debug('ModuleManager::getModuleInfo: '.print_r($composerData,true));
         if (isset($composerData->name)) {
             $result['name'] = $composerData->name;
         }
@@ -219,6 +214,9 @@ class ModuleManager
         }
         if (isset($composerData->homepage)) {
             $result['homepage'] = $composerData->homepage;
+        }
+        if (isset($composerData->license)) {
+            $result['license'] = $composerData->license;
         }
         return $result;
     }
