@@ -69,9 +69,9 @@ class ModuleManager
                 continue;
             }
             $moduleInfo = $this->getModuleInfo($moduleDirectory);
-            if ($moduleInfo['name'] == $this->myself) {
-                continue;  // don't list ourself
-            }
+            //if ($moduleInfo['name'] == $this->myself) {
+            //    continue;  // don't list ourself
+            //}
             $modules[$moduleName] = array(
                 'basename' => $moduleInfo['basename'],
                 'name' => $moduleInfo['name'],
