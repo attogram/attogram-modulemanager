@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.1.0
+// Attogram Framework - ModuleManager class v0.1.1
 
 namespace Attogram;
 
@@ -88,7 +88,7 @@ class ModuleManager
     /**
      * enable a module
      * @param string $moduleName  Name of the module to enable
-     * @return bool
+     * @return string  result message
      */
     public function enable($moduleName)
     {
@@ -117,7 +117,7 @@ class ModuleManager
     /**
      * disable a module
      * @param string $moduleName  Name of the module to disable
-     * @return bool
+     * @return string  result message
      */
     public function disable($moduleName)
     {
@@ -129,10 +129,10 @@ class ModuleManager
         // module exists and is enabled?
         $enabled = $this->getEnabledModuleList();
         if (!array_key_exists($moduleName, $enabled)) {
-            return $result.'<br />ERROR: Module does not exist' .'<pre>'.print_r($enabled,true).'</pre>';
+            return $result.'<br />ERROR: Module does not exist' .'<pre>'.print_r($enabled, true).'</pre>';
         }
         // Check not ourself
-        if ($enabled[$moduleName]['name'] == $this->myself) {
+        if ($enabled[$moduleName]['name'] == self::MODULE_MANAGER_NAME) {
             return $result.'<br />ERROR: May not disable the Module Manager!';
         }
         // rename to /modules_disabled/$module
