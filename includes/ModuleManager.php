@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.12
+// Attogram Framework - ModuleManager class v0.1.0
 
 namespace Attogram;
 
@@ -219,5 +219,54 @@ class ModuleManager
             $result['license'] = $composerData->license;
         }
         return $result;
+    }
+
+    /**
+     * display a pretty bootstrapy row of module information
+     * @param string $moduleBaseName  Base path+file of module
+     * @param array $moduleInfo  Array of module information from composer.json
+     * @param bool $enabled  True if module currently is enabled, false if disabled
+     * @return string  HTML fragment
+     */
+    function moduleRow($moduleBaseName, $moduleInfo, $enabled = true)
+    {
+        $homepage = (
+            isset($moduleInfo['homepage'])
+            ? '<br /><a href="'.$moduleInfo['homepage'].'">'.$moduleInfo['homepage'].'</a>'
+            : ''
+        );
+        $license = (
+            isset($moduleInfo['license'])
+            ? '<br />License: '.$moduleInfo['license']
+            : ''
+        );
+        $backgroundColor = (
+            $enabled
+            ? '#d9ffcc'
+            : '#ffdddd'
+        );
+        $showEnableDisable = true;
+        if ($moduleInfo['name'] == ModuleManager::MODULE_MANAGER_NAME) {
+            $backgroundColor = 'lightyellow';
+            $showEnableDisable = false;
+        }
+        $frag = '<div class="row"'
+            .' style="border:1px solid grey;padding:2px;background-color:'
+            .$backgroundColor.';">'
+            .'<div class="col-sm-4"><strong>'.$moduleInfo['name'].'</strong></div>'
+            .'<div class="col-sm-5"><small>'.$moduleInfo['description']
+            .$license
+            .$homepage
+            .'</small></div>';
+        if ($enabled && $showEnableDisable) {
+            $frag .= '<div class="col-sm-3">ENABLED <a href="?d='
+                  .urlencode($moduleBaseName).'">(disable)</a></div>';
+        }
+        if (!$enabled && $showEnableDisable) {
+            $frag .= '<div class="col-sm-3"><a href="?e='
+                .urlencode($moduleBaseName).'">(enable)</a> DISABLED</div>';
+        }
+        $frag .= '</div>';
+        return $frag;
     }
 }
