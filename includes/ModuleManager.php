@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.1.1
+// Attogram Framework - ModuleManager class v0.1.2
 
 namespace Attogram;
 
@@ -228,7 +228,7 @@ class ModuleManager
      * @param bool $enabled  True if module currently is enabled, false if disabled
      * @return string  HTML fragment
      */
-    function moduleRow($moduleBaseName, $moduleInfo, $enabled = true)
+    public function moduleRow($moduleBaseName, $moduleInfo, $enabled = true)
     {
         $homepage = (
             isset($moduleInfo['homepage'])
