@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.1.2
+// Attogram Framework - ModuleManager class v0.1.3
 
 namespace Attogram;
 
@@ -258,11 +258,13 @@ class ModuleManager
             .$license
             .$homepage
             .'</small></div>';
-        if ($enabled && $showEnableDisable) {
-            $frag .= '<div class="col-sm-3">ENABLED <a href="?d='
-                  .urlencode($moduleBaseName).'">(disable)</a></div>';
+        if (!$showEnabled) {
+            return $frag.'<div class="col-sm-3">&nbsp;</div></div>';
         }
-        if (!$enabled && $showEnableDisable) {
+        if ($enabled) {
+            $frag .= '<div class="col-sm-3">ENABLED <a href="?d='
+                .urlencode($moduleBaseName).'">(disable)</a></div>';
+        } else {
             $frag .= '<div class="col-sm-3"><a href="?e='
                 .urlencode($moduleBaseName).'">(enable)</a> DISABLED</div>';
         }
