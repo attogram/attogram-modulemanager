@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - Module Manager Admin Page v0.1.0
+// Attogram Framework - Module Manager Admin Page v0.1.1
 
 namespace Attogram;
 
@@ -26,7 +26,12 @@ print '<div class="container">'
 foreach ($manager->getEnabledModuleList() as $moduleBaseName => $moduleInfo) {
     print '<div class="row" style="border:1px solid grey;padding:2px;background-color:#d9ffcc;">'
         .'<div class="col-sm-4"><strong>'.$moduleInfo['name'].'</strong></div>'
-        .'<div class="col-sm-5"><small>'.$moduleInfo['description'].'</small></div>'
+        .'<div class="col-sm-5"><small>'.$moduleInfo['description']
+        .(isset($moduleInfo['homepage'])
+            ? '<br /><a href="'.$moduleInfo['homepage'].'">'.$moduleInfo['homepage'].'</a>'
+            : ''
+        )
+        .'</small></div>'
         .'<div class="col-sm-3">ENABLED <a href="?d='.urlencode($moduleBaseName).'">(disable)</a></div></div>';
 }
 
@@ -34,7 +39,12 @@ print '<h3>Disabled Modules:</h3>';
 foreach ($manager->getDisabledModuleList() as $moduleBaseName => $moduleInfo) {
     print '<div class="row" style="border:1px solid grey;padding:2px;background-color:#ffdddd;">'
         .'<div class="col-sm-4"><strong>'.$moduleInfo['name'].'</strong></div>'
-        .'<div class="col-sm-5"><small>'.$moduleInfo['description'].'</small></div>'
+        .'<div class="col-sm-5"><small>'.$moduleInfo['description']
+        .(isset($moduleInfo['homepage'])
+            ? '<br /><a href="'.$moduleInfo['homepage'].'">'.$moduleInfo['homepage'].'</a>'
+            : ''
+        )
+        .'</small></div>'
         .'<div class="col-sm-3"><a href="?e='.urlencode($moduleBaseName).'">(enable)</a> DISABLED</div></div>';
 }
 

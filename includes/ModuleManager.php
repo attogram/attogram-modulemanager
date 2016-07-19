@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - ModuleManager class v0.0.10
+// Attogram Framework - ModuleManager class v0.0.11
 
 namespace Attogram;
 
@@ -76,6 +76,7 @@ class ModuleManager
                 'basename' => $moduleInfo['basename'],
                 'name' => $moduleInfo['name'],
                 'description' => $moduleInfo['description'],
+                'homepage' => $moduleInfo['homepage'],
                 'path' => $moduleDirectory
             );
         }
@@ -193,6 +194,7 @@ class ModuleManager
         $result['basename'] = basename($moduleDir);
         $result['name'] = $result['basename'];
         $result['description'] = '';
+        $result['homepage'] = '';
 
         $composerDotJson = $moduleDir.DIRECTORY_SEPARATOR.'composer.json';
         if (!is_readable($composerDotJson)) {
@@ -212,8 +214,11 @@ class ModuleManager
         if (isset($composerData->name)) {
             $result['name'] = $composerData->name;
         }
-        if (isset( $composerData->description)) {
+        if (isset($composerData->description)) {
             $result['description'] = $composerData->description;
+        }
+        if (isset($composerData->homepage)) {
+            $result['homepage'] = $composerData->homepage;
         }
         return $result;
     }
