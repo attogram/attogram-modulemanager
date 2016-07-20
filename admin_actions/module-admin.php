@@ -1,5 +1,5 @@
 <?php
-// Attogram Framework - Module Manager Admin Page v0.2.2
+// Attogram Framework - Module Manager Admin Page v0.2.3
 
 namespace Attogram;
 
@@ -8,13 +8,13 @@ $manager = new ModuleManager($this);
 if ($this->request->query->has('e')) {
     $results = $manager->enable($this->request->query->get('e'));
     header('Location: .');
-    exit;
+    $this->shutdown();
 }
 
 if ($this->request->query->has('d')) {
     $results = $manager->disable($this->request->query->get('d'));
     header('Location: .');
-    exit;
+    $this->shutdown();
 }
 
 $this->pageHeader('Module Manager');
