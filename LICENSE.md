@@ -10,7 +10,7 @@ The Attogram Framework Module Manager is dual licensed under
 
 ## Attogram Framework Module Manager - MIT License
 
-Copyright (c) 2016 Attogram Developers <https://github.com/attogram/attogram>
+Copyright (c) 2017 Attogram Developers <https://github.com/attogram/attogram>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -34,7 +34,7 @@ THE SOFTWARE.
 
 ## Attogram Framework Module Manager - GNU General Public License
 
-Copyright (C) 2016 Attogram Developers <https://github.com/attogram/attogram>
+Copyright (C) 2017 Attogram Developers <https://github.com/attogram/attogram>
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
